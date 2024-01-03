@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://caxdciublgyp1"]
+
+[ext_resource type="Script" path="res://GodotModules/GNodes/HandlerManager/handler_manager.gd" id="1_lw1lk"]
+
+[node name="HandlerManager" type="Node3D"]
+script = ExtResource("1_lw1lk")
