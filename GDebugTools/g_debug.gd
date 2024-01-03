@@ -39,7 +39,11 @@ func print(i_sender: Variant, i_params: Array, i_params_color: String = 'white',
 	var color_theme = i_theme_color
 	var style_theme = i_theme_style
 
-	var sender_name = '[i][color=%s]%s[/color][/i]' % [theme_colors[color_theme][0], i_sender.name]
+	var sender_name
+	if (i_sender != null): 
+		sender_name = '[i][color=%s]%s[/color][/i]' % [theme_colors[color_theme][0], i_sender.name]
+	else:
+		sender_name = '[i][color=%s]NULL_SENDER[/color][/i]' % [theme_colors[color_theme][0]]
 	var location = get_stack()[1]
 	var func_info = '[color=%s]%s @ %s()[/color]' % [theme_colors[color_theme][1], location.line, location.function]
 	var pre_params = theme_styles[style_theme][0]
