@@ -23,10 +23,18 @@ func calculate_velocity(
 			i_wish_speed: float,
 			i_acceleration: float,
 		) -> Vector3:
-	var wish_vel: Vector3 = i_wish_direction * i_wish_speed
+	var wish_vel: Vector3 = i_wish_direction.normalized() * i_wish_speed
 	var current_vel: Vector3 = i_character_body.get_real_velocity()
 	var target_vel: Vector3 = current_vel.move_toward(wish_vel, i_acceleration * i_delta)
 	return target_vel
+
+func calculate_impulse(
+			i_wish_direction: Vector3,
+			i_impulse_force: float,
+		) -> Vector3:
+	var wish_impulse: Vector3 = i_wish_direction.normalized() * i_impulse_force
+	var target_impulse: Vector3 = wish_impulse
+	return target_impulse
 
 func apply_velocity_modifiers(i_velocity: Vector3) -> Vector3:
 	for modifier in velocity_modifier_array:
