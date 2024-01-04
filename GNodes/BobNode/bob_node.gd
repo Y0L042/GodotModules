@@ -76,5 +76,5 @@ func bob_x(i_time: float) -> Vector3:
 
 func _editor_functions(delta: float) -> void:
 	if Engine.is_editor_hint() and _editor_preview_enabled:
-		if enable_bob and node_target:
+		if node_target:
 			bob(delta)
