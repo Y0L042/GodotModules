@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxmuxmr43tthe"]
+
+[ext_resource type="Script" path="res://GodotModules/GNodes/FPSCamera/fps_camera.gd" id="1_emutw"]
+
+[node name="FPS_Camera" type="Marker3D" node_paths=PackedStringArray("main_camera", "subview_camera", "subview_root")]
+script = ExtResource("1_emutw")
+main_camera = NodePath("Camera3D")
+subview_camera = NodePath("SubViewportContainer/SubViewport/SubViewRoot/SubviewCamera3D")
+subview_root = NodePath("SubViewportContainer/SubViewport/SubViewRoot")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+keep_aspect = 0
+cull_mask = 1
+current = true
+fov = 95.0
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../SubViewportContainer/SubViewport/SubViewRoot")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2160, 1440)
+render_target_update_mode = 4
+
+[node name="SubViewRoot" type="Marker3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="SubviewCamera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/SubViewRoot"]
+keep_aspect = 0
+cull_mask = 2
