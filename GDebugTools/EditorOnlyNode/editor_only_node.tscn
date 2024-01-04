@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://csr3yseoyjfg8"]
 
-[ext_resource type="Script" path="res://GodotModules/GDebugTools/EditorOnlyNodes/editor_only_nodes.gd" id="1_ip3nb"]
+[ext_resource type="Script" path="res://GodotModules/GDebugTools/EditorOnlyNode/editor_only_node.gd" id="1_ip3nb"]
 
 [node name="EditorOnlyNodes" type="Node3D"]
 script = ExtResource("1_ip3nb")

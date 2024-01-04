@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cou4hmylh6k0k"
-path="res://.godot/imported/icons8-spanner-100.png-bd928af26fc68cf05e28b49d56e00399.ctex"
+path="res://.godot/imported/icons8-spanner-100.png-d4138c5035c41b394ea50cb28681a664.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GodotModules/GDebugTools/EditorOnlyNodes/icons/icons8-spanner-100.png"
-dest_files=["res://.godot/imported/icons8-spanner-100.png-bd928af26fc68cf05e28b49d56e00399.ctex"]
+source_file="res://GodotModules/GDebugTools/EditorOnlyNode/icons/icons8-spanner-100.png"
+dest_files=["res://.godot/imported/icons8-spanner-100.png-d4138c5035c41b394ea50cb28681a664.ctex"]
 
 [params]
 
