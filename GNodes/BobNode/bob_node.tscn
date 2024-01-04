@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddj8scmy3uc7j"]
+
+[ext_resource type="Script" path="res://GodotModules/GNodes/BobNode/bob_node.gd" id="1_s3yti"]
+
+[node name="BobNode" type="Node3D"]
+script = ExtResource("1_s3yti")
