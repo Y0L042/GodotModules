@@ -11,10 +11,12 @@ extends Node3D
 @export var global_bob_ampl: float = 1
 @export_subgroup("Vertical Bob")
 @export var enable_vertical_bob: bool = true
+@export var vertical_bob_freq_offset: float = 0
 @export var vertical_bob_freq: float = 1
 @export var vertical_bob_ampl: float = 1
 @export_subgroup("Horizontal Bob")
 @export var enable_horizontal_bob: bool = true
+@export var horizontal_bob_freq_offset: float = 0
 @export var horizontal_bob_freq: float = 1
 @export var horizontal_bob_ampl: float = 1
 
@@ -26,6 +28,7 @@ var _editor_preview_enabled: bool = false
 		return _editor_preview_enabled
 	set(enabled):
 		_editor_preview_enabled = enabled
+		if !Engine.is_editor_hint(): return
 		if enabled:
 			_node_target_original_transform = node_target.transform
 		if !enabled:
@@ -48,8 +51,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_editor_functions(delta)
-	if Engine.is_editor_hint: return
-	if enable_bob and node_target: bob(delta)
+	if !Engine.is_editor_hint():
+		if enable_bob and node_target:
+			bob(delta)
 
 func bob(delta: float) -> void:
 	bob_rad_t = wrap(bob_rad_t + delta, 0, PI * 1000)
@@ -60,17 +64,17 @@ func bob_y(i_time: float) -> Vector3:
 	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * vertical_bob_freq_modifier
 	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * vertical_bob_ampl_modifier
 	var y_axis: Vector3 = Vector3(0, 1, 0)
-	var bob_offset: Vector3 = y_axis * sin(i_time * bob_freq) * bob_ampl
+	var bob_offset: Vector3 = y_axis * sin(i_time * bob_freq + vertical_bob_freq_offset) * bob_ampl
 	return bob_offset
 
 func bob_x(i_time: float) -> Vector3:
 	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * horizontal_bob_freq_modifier
 	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * horizontal_bob_ampl_modifier
 	var x_axis: Vector3 = Vector3(1, 0, 0)
-	var bob_offset: Vector3 = x_axis * cos(i_time * bob_freq/2) * bob_ampl
+	var bob_offset: Vector3 = x_axis * cos(i_time * bob_freq/2 + horizontal_bob_freq_offset) * bob_ampl
 	return bob_offset
 
 func _editor_functions(delta: float) -> void:
-	if Engine.is_editor_hint and _editor_preview_enabled:
+	if Engine.is_editor_hint() and _editor_preview_enabled:
 		if enable_bob and node_target:
 			bob(delta)
