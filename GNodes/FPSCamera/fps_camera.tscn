@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" path="res://GodotModules/GNodes/FPSCamera/fps_camera.gd" id="1_emutw"]
 
-[node name="FPS_Camera" type="Marker3D" node_paths=PackedStringArray("main_camera", "subview_camera", "subview_root")]
+[node name="FPS_Camera" type="Marker3D" node_paths=PackedStringArray("main_camera", "subview_camera", "subview_root", "subview_container")]
 script = ExtResource("1_emutw")
 main_camera = NodePath("Camera3D")
 subview_camera = NodePath("SubViewportContainer/SubViewport/SubViewRoot/SubviewCamera3D")
 subview_root = NodePath("SubViewportContainer/SubViewport/SubViewRoot")
+subview_container = NodePath("SubViewportContainer")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 keep_aspect = 0
