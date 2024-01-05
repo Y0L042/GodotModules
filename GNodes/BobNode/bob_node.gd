@@ -1,14 +1,26 @@
 @tool
+@icon('res://GodotModules/GNodes/BobNode/icons/icons8-infinity-100.png')
+class_name BobNode
 extends Node3D
 
 @export_group("Node References")
-@export var node_target: Node3D
+var _node_target: Node3D
+@export var node_target: Node3D:
+	get:
+		return _node_target
+	set(value):
+		if _node_target:
+			_node_target.transform = _node_target_original_transform
+		_node_target = value
+		_node_target_original_transform = value.transform
+		node_target_original_position = value.position
 
 @export_group("Bob Config")
-@export var enable_bob: bool = false
+@export var enable_permanent_bob: bool = false
 @export_subgroup("Global Bob")
 @export var global_bob_freq: float = 1
 @export var global_bob_ampl: float = 1
+@export var global_bob_ampl_scale: float = 1
 @export_subgroup("Vertical Bob")
 @export var enable_vertical_bob: bool = true
 @export var vertical_bob_freq_offset: float = 0
@@ -29,8 +41,6 @@ var _editor_preview_enabled: bool = false
 	set(enabled):
 		_editor_preview_enabled = enabled
 		if !Engine.is_editor_hint(): return
-		if enabled:
-			_node_target_original_transform = node_target.transform
 		if !enabled:
 			node_target.transform = _node_target_original_transform
 
@@ -52,7 +62,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_editor_functions(delta)
 	if !Engine.is_editor_hint():
-		if enable_bob and node_target:
+		if enable_permanent_bob and node_target:
 			bob(delta)
 
 func bob(delta: float) -> void:
@@ -61,15 +71,15 @@ func bob(delta: float) -> void:
 	node_target.transform.origin = node_target_original_position + bob_offset
 
 func bob_y(i_time: float) -> Vector3:
-	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * vertical_bob_freq_modifier
-	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * vertical_bob_ampl_modifier
+	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * vertical_bob_freq * vertical_bob_freq_modifier
+	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * vertical_bob_ampl * vertical_bob_ampl_modifier * global_bob_ampl_scale
 	var y_axis: Vector3 = Vector3(0, 1, 0)
 	var bob_offset: Vector3 = y_axis * sin(i_time * bob_freq + vertical_bob_freq_offset) * bob_ampl
 	return bob_offset
 
 func bob_x(i_time: float) -> Vector3:
-	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * horizontal_bob_freq_modifier
-	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * horizontal_bob_ampl_modifier
+	var bob_freq: float = global_bob_freq * global_bob_freq_modifier * horizontal_bob_freq * horizontal_bob_freq_modifier
+	var bob_ampl: float = global_bob_ampl * global_bob_ampl_modifier * horizontal_bob_ampl * horizontal_bob_ampl_modifier * global_bob_ampl_scale
 	var x_axis: Vector3 = Vector3(1, 0, 0)
 	var bob_offset: Vector3 = x_axis * cos(i_time * bob_freq/2 + horizontal_bob_freq_offset) * bob_ampl
 	return bob_offset
