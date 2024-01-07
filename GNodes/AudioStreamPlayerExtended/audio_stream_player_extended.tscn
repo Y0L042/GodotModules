@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://fpj7oq1fqd8n"]
+
+[ext_resource type="Script" path="res://GodotModules/GNodes/AudioStreamPlayerExtended/audio_stream_player_extended.gd" id="1_2p3so"]
+
+[node name="AudioStreamPlayerExtended" type="AudioStreamPlayer3D" node_paths=PackedStringArray("gap_timer")]
+script = ExtResource("1_2p3so")
+gap_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]

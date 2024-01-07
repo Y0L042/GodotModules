@@ -19,7 +19,7 @@ enum ThemeStyles {
 }
 
 func print(i_sender: Variant, i_params: Array, i_params_color: String = 'white', i_theme_color: ThemeColors = ThemeColors.STANDARD, i_theme_style: ThemeStyles = ThemeStyles.STANDARD) -> void:
-	var params_colors = {
+	var _params_colors = {
 		ParamsColors.STANDARD : 'white',
 		ParamsColors.ORANGE : 'orange',
 		ParamsColors.RED : 'red',
@@ -40,7 +40,7 @@ func print(i_sender: Variant, i_params: Array, i_params_color: String = 'white',
 	var style_theme = i_theme_style
 
 	var sender_name
-	if (i_sender != null): 
+	if (i_sender != null):
 		sender_name = '[i][color=%s]%s[/color][/i]' % [theme_colors[color_theme][0], i_sender.name]
 	else:
 		sender_name = '[i][color=%s]NULL_SENDER[/color][/i]' % [theme_colors[color_theme][0]]

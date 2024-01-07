@@ -1,3 +1,4 @@
+@icon('res://GodotModules/GNodes/HandlerManager/icons/icons8-manager-64.png')
 class_name HandlerManager
 extends Node3D
 

@@ -1,5 +1,5 @@
 @tool
-@icon(".icons/icons8-spanner-100.png")
+@icon("res://GodotModules/GDebugTools/EditorOnlyNode/icons/icons8-spanner-100.png")
 class_name EditorOnlyNodes
 extends Node3D
 
