@@ -1,5 +1,14 @@
 extends Node
 
+@export var debug_panel_packedscene: PackedScene
+
+var panel: DebugPanelNode
+
+func _ready() -> void:
+	if panel == null:
+		panel = DebugPanelNode.spawn(self)
+
+#region Debug Print
 enum ParamsColors {
 	STANDARD,
 	ORANGE,
@@ -57,3 +66,4 @@ func print(i_sender: Variant, i_params: Array, i_params_color: String = 'white',
 	var output = '%s [b] | [/b] %s [b]->[/b] %s%s%s' % [sender_name, func_info, pre_params, params_str, post_params]
 
 	print_rich(output)
+#endregion Debug Print

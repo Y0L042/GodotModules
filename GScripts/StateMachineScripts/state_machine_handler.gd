@@ -1,7 +1,15 @@
+@tool
 class_name StateMachineHandler
 extends Node
 
-@export var node_root: Node
+var _node_root: Node
+@export var node_root: Node:
+	get:
+		return _node_root
+	set(value):
+		_node_root = value
+		update_configuration_warnings()
+
 var current_state: StateClass
 
 func _init() -> void:
@@ -27,3 +35,11 @@ func change_state(i_new_state: StateClass) -> void:
 	if current_state: current_state.exit();
 	current_state = i_new_state
 	if current_state: current_state.enter()
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warning_array: PackedStringArray = []
+	if _node_root == null:
+		var warning: String = "Action Component not set. Player States will fail."
+		warning_array.append(warning)
+		update_configuration_warnings()
+	return warning_array

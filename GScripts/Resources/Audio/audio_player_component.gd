@@ -1,6 +1,8 @@
 class_name AudioPlayerComponent
 extends Node
 
+@export var gap_timer: Timer
+
 var audiostreamplayer_extended_array: Array[AudioStreamPlayerExtended] = []
 
 func _ready() -> void:

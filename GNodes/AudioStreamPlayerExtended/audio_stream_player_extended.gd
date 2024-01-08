@@ -31,12 +31,22 @@ func play_random_sound() -> void:
 	stream = streams_array[_select_random_index(audio_package.package_streams)]
 	play()
 
-func play_random_sound_advanced(i_gap_time: float) -> void:
-	if playing: return
+func play_random_sound_manual() -> void:
+	stream = streams_array[_select_random_index(audio_package.package_streams)]
+	play()
+
+func DEP_play_random_sound_advanced(i_gap_time: float) -> void:
 	if gap_timer.time_left > 0: return
-	play_random_sound()
-	gap_timer.wait_time = i_gap_time
-	gap_timer.start()
+	gap_timer.start(i_gap_time)
+	stream = streams_array[_select_random_index(audio_package.package_streams)]
+	play()
+
+func play_random_sound_advanced(i_gap_time: float) -> void:
+	if !playing:
+		play_random_sound_manual()
+	await get_tree().create_timer(i_gap_time).timeout
+	play_random_sound_manual()
+
 
 func _select_random_index(i_array: Array) -> int:
 	return randi_range(0, len(i_array) - 1)

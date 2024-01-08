@@ -1,10 +1,17 @@
+@tool
 @icon('res://GodotModules/GNodes/HandlerManager/icons/icons8-manager-64.png')
 class_name HandlerManager
 extends Node3D
 
 static var IHandler: String = "IHandler"
 
-@export var node_root: Node
+var _node_root: Node
+@export var node_root: Node:
+	get:
+		return _node_root
+	set(value):
+		_node_root = value
+		update_configuration_warnings()
 
 signal signal_custom_init()
 signal signal_custom_ready(node_root)
@@ -44,3 +51,11 @@ func add_handlers() -> void:
 				signal_custom_handled_input.connect(handler.custom_handled_input)
 			if handler.has_method("custom_unhandled_input"):
 				signal_custom_unhandled_input.connect(handler.custom_unhandled_input)
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warning_array: PackedStringArray = []
+	if _node_root == null:
+		var warning: String = "Action Component not set. Player States will fail."
+		warning_array.append(warning)
+		update_configuration_warnings()
+	return warning_array

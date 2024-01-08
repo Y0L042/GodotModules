@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmy6j3mipu85e"]
+
+[ext_resource type="Theme" uid="uid://6nfdwivjbxqe" path="res://GodotModules/GDebugTools/DebugUIThemes/debugui_theme.tres" id="1_ja16h"]
+[ext_resource type="Script" path="res://GodotModules/GDebugTools/DebugPanelNode/debug_panel_node.gd" id="1_n8gbp"]
+[ext_resource type="PackedScene" uid="uid://csr3yseoyjfg8" path="res://GodotModules/GDebugTools/EditorOnlyNode/editor_only_node.tscn" id="3_51ve8"]
+
+[node name="DebugPanelNode" type="Control" node_paths=PackedStringArray("panel_item_parent")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_n8gbp")
+panel_item_parent = NodePath("PanelContainer/MarginContainer/VBoxContainer")
+visible_by_default = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_left = 19.0
+offset_top = 17.0
+offset_right = 485.0
+offset_bottom = 105.0
+theme = ExtResource("1_ja16h")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme = ExtResource("1_ja16h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="EditorOnlyNodes" parent="PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_51ve8")]
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/EditorOnlyNodes"]
+offset_left = 34.0
+offset_top = 32.0
+offset_right = 431.0
+offset_bottom = 87.0
+theme = ExtResource("1_ja16h")
+text = "Debug Panel
+"
