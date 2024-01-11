@@ -1,6 +1,6 @@
 class_name ShapeCastClass
 
-func do_raycast_point_to_point(
+static func do_raycast_point_to_point(
             i_context: Object,
             i_origin: Vector3, 
             i_target: Vector3, 

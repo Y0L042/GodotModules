@@ -1,5 +1,6 @@
 class_name IntersectRayResults
 
+var dict: Dictionary
 var positive_results: bool
 var collider: Variant
 var collider_id: Variant
@@ -10,6 +11,7 @@ var rid: Variant
 var shape: Variant
 
 func _init(i_results_dict: Dictionary) -> void:
+	dict = i_results_dict
 	if i_results_dict.is_empty():
 		positive_results = false
 		return
@@ -18,6 +20,6 @@ func _init(i_results_dict: Dictionary) -> void:
 	collider_id = i_results_dict.collider_id
 	normal = i_results_dict.normal
 	position = i_results_dict.position
-	face_index = i_results_dict.index
+	face_index = i_results_dict.face_index
 	rid = i_results_dict.rid
 	shape = i_results_dict.shape
