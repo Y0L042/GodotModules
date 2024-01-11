@@ -6,9 +6,15 @@ extends Control
 
 static var self_scene: PackedScene = preload("res://GodotModules/GDebugTools/DebugPanelNode/debug_panel_node.tscn")
 
+var logged_properties: Array[String] = []
+var flashed_properties: Array[String] = []
+
 func _ready() -> void:
 	GDebug.panel = self
 	visible = visible_by_default
+
+func _physics_process(delta: float) -> void:
+	pass
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("debug_toggle_panel"): visible = !visible

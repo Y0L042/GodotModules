@@ -72,7 +72,6 @@ func _physics_process(delta: float) -> void:
 	if !Engine.is_editor_hint():
 		if enable_permanent_bob and node_target:
 			_bob(delta)
-		GDebug.panel.add_property("bob_enabled", bob_enabled)
 		if bob_enabled and node_target:
 			# tween.kill()
 			_bob(delta)
