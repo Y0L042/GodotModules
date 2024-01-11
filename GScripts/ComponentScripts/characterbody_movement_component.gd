@@ -2,6 +2,7 @@ class_name CharacterBodyMovementComponent
 extends Node3D
 
 @export_group("References")
+@export var player: PlayerEntity
 @export var movement_stats: MovementStatsResource
 @export var character_body: CharacterBody3D
 @export var stairs_ray: RayCast3D
@@ -10,6 +11,7 @@ extends Node3D
 @export var MAX_STEP_SIZE: float = 0.5
 
 var velocity_modifier_array: Array[Callable] = []
+var _was_last_frame_stairstepped: bool
 
 func _init() -> void:
 	add_to_group("IComponent") #TODO make into something more reliable
@@ -20,9 +22,15 @@ func move(
 			i_velocity: Vector3
 		) -> void:
 	i_velocity = apply_velocity_modifiers(i_velocity)
-	if step_check(delta, i_character_body, i_velocity): 
+	var vel_backup: Vector3 = i_velocity
+	if _was_last_frame_stairstepped:
+		i_velocity = Vector3.ZERO
+	if player.input_flag_is_moving and attempt_stair_step(delta, i_character_body, i_velocity):
 		i_character_body.velocity = Vector3.ZERO
 		return
+	if player.input_flag_jump: 
+		_was_last_frame_stairstepped = false
+		i_velocity = vel_backup
 	i_character_body.velocity = i_velocity
 	i_character_body.move_and_slide()
 
@@ -52,32 +60,30 @@ func apply_velocity_modifiers(i_velocity: Vector3) -> Vector3:
 	velocity_modifier_array.clear()
 	return i_velocity
 
-func step_check(delta: float, i_character: CharacterBody3D, i_vel: Vector3) -> bool:
-	GDebug.panel.add_property("StairsRayIsColliding", stairs_ray.is_colliding())
+func attempt_stair_step(delta: float, i_character: CharacterBody3D, i_vel: Vector3) -> bool:
+	_was_last_frame_stairstepped = false
 	if stairs_ray.is_colliding():
 		var collision_point: Vector3 = stairs_ray.get_collision_point()
-		var result: PhysicsTestMotionResult3D = bodycast_to_point(i_character, i_character.global_position, collision_point)
+		var motion: Vector3 = collision_point - i_character.global_position
+		var result: PhysicsTestMotionResult3D = bodycast_to_point(i_character, motion)
 		var target_point: Vector3
 		if result:
 			target_point = result.get_collision_point()
 		else:
 			target_point = collision_point
-		# target_point = i_character.global_position + i_character.global_position.direction_to(target_point) * i_vel.length() * 0.75
 		i_character.global_position = target_point
+		_was_last_frame_stairstepped = true
 		return true
 	return false
 
-
-func bodycast_to_point(i_body: PhysicsBody3D, i_from: Vector3, i_to: Vector3) -> PhysicsTestMotionResult3D:
+func bodycast_to_point(i_body: PhysicsBody3D, i_motion: Vector3) -> PhysicsTestMotionResult3D:
 	var from_xform: Transform3D = i_body.transform
-	from_xform.origin = i_from
-	var motion: Vector3 = i_to - i_from
 	var parameters: PhysicsTestMotionParameters3D = PhysicsTestMotionParameters3D.new()
 	var result: PhysicsTestMotionResult3D = PhysicsTestMotionResult3D.new()
 	parameters.from = from_xform
-	parameters.motion = motion
+	parameters.motion = i_motion
 	var has_collided: bool = PhysicsServer3D.body_test_motion(i_body.get_rid(), parameters, result)
 	if has_collided:
 		return result
-	else: 
+	else:
 		return null
